@@ -11,9 +11,9 @@ mesh = o3d.io.read_triangle_mesh(knot_mesh.path)
 knot_translate = copy.deepcopy(mesh).translate((120.0, 0.0, 0.0))
 
 # bottom plane (from box)
-plane = o3d.geometry.TriangleMesh.create_box(width=300.0, height=300.0, depth=0.1)
+plane = o3d.geometry.TriangleMesh.create_box(width=300.0, height=5.0, depth=300.0)
 
-# plane_translate = copy.deepcopy(plane).translate((1.3, 0.0))
+# plane_translate = copy.deepcopy(plane).translate((1.3, 0.0, 0.0))
 # print(mesh)
 # print('Vertices:')
 # print(np.asarray(mesh.vertices))
