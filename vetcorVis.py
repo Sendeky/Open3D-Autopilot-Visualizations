@@ -11,7 +11,8 @@ left_lane = [[229, 709], [238, 699], [249, 689], [260, 679], [271, 669], [282, 6
 
 # Convert 2D points to 3D
 constant_z = 0
-left_lane_3d = np.array([[x, y, constant_z] for x, y in left_lane])
+# left_lane_3d = np.array([[x, y, constant_z] for x, y in left_lane])
+left_lane_3d = np.array([[constant_z, x, y] for x, y in left_lane])
 
 # Create a PointCloud object
 pcd = o3d.geometry.PointCloud()
