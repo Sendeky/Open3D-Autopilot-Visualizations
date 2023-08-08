@@ -34,31 +34,42 @@ lane_line.compute_vertex_normals()
     [526, 439], [536, 429], [546, 419], [555, 409], [565, 399], [572, 389]]
 """
 
-plane_width = 300.0
-plane_height = 5.0
-plane_depth = 300.0
-plane = o3d.geometry.TriangleMesh.create_box(width=plane_width, height=plane_height, depth=plane_depth)
+# plane_width = 300.0
+# plane_height = 5.0
+# plane_depth = 300.0
+# plane = o3d.geometry.TriangleMesh.create_box(width=plane_width, height=plane_height, depth=plane_depth)
+vis = o3d.visualization.VisualizerWithKeyCallback()
 
-def loopTest():
+def vis_draw():
     # PLANE DIMENSIONS
-    global plane_width
-    global plane_height
-    global plane_depth
-    global plane
+    plane_width = 300.0
+    plane_height = 5.0
+    plane_depth = 300.0
+    plane = o3d.geometry.TriangleMesh.create_box(width=plane_width, height=plane_height, depth=plane_depth)
 
-    threading.Timer(INTERVAL, loopTest).start()
+    # threading.Timer(INTERVAL, loopTest).start()
     print("test")
 
     # plane
     plane_width += 100.0
     plane = o3d.geometry.TriangleMesh.create_box(width=plane_width, height=plane_height, depth=plane_depth)
 
-    o3d.visualization.update_geometry()
+    global vis
+    vis.create_window()
+    vis.register_key_callback(0, vis_draw)
+    vis.add_geometry(geometry=plane)
+    vis.add_geometry(geometry=lane_line)
+    vis.run()
+    time.sleep(0.1)
+    vis.destory_window()
+
+# loopTest()
+
+# put this in a timer loop
+vis_draw()
 
 
-plane_translate = copy.deepcopy(plane).translate((200, 0.0, 0.0))
-o3d.visualization.draw_geometries([plane, plane_translate, lane_line])
-loopTest()
+
 
 print("")
 
