@@ -24,6 +24,7 @@ print("norm x: ", normalized_x)
 
 # Approximate the curve using cubic spline interpolation
 spline = CubicSpline(left_lane_3d[:, 0], left_lane_3d[:, 1])
+left_lane_3d[:, 0] = normalized_x
 
 # Create a PointCloud object
 pcd = o3d.geometry.PointCloud()
@@ -41,13 +42,13 @@ try:
     while True:
         # Update your data points (e.g., left_lane_3d)
         # Update your data points with slight motion
-        # for i in range(len(left_lane_3d)):
-            # left_lane_3d[i, 0] += np.random.uniform(-0.1, 0.1)
+        for i in range(len(left_lane_3d)):
+            left_lane_3d[i, 0] += np.random.uniform(-0.2, 0.2)
             # left_lane_3d[i, 1] += np.random.uniform(-0.1, 0.1)
 
         # Interpolate y-values based on the curve
         # left_lane_3d[:, 0] = spline(left_lane_3d[:, 0])
-        print("spline: ", spline(left_lane_3d[:, 0]))
+        # print("spline: ", spline(left_lane_3d[:, 0]))
 
         # Update the PointCloud data
         pcd.points = o3d.utility.Vector3dVector(left_lane_3d)
