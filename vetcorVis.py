@@ -1,8 +1,10 @@
 import open3d as o3d
 import time
 import numpy as np
+from scipy.interpolate import CubicSpline
 
 
+# example of how the lanes are given
 left_lane = [[229, 709], [238, 699], [249, 689], [260, 679], [271, 669], [282, 659],
     [293, 649], [304, 639], [315, 629], [325, 619], [336, 609], [348, 599], [359, 589],
     [369, 579], [381, 569], [390, 559], [404, 549], [415, 539], [426, 529], [438, 519],
@@ -11,8 +13,17 @@ left_lane = [[229, 709], [238, 699], [249, 689], [260, 679], [271, 669], [282, 6
 
 # Convert 2D points to 3D
 constant_z = 0
-# left_lane_3d = np.array([[x, y, constant_z] for x, y in left_lane])
-left_lane_3d = np.array([[constant_z, x, y] for x, y in left_lane])
+left_lane_3d = np.array([[x, y, constant_z] for x, y in left_lane])
+# left_lane_3d = np.array([[constant_z, x, y] for x, y in left_lane])
+
+# Normalize the values
+x_min = np.min(left_lane_3d[:, 0])
+x_max = np.max(left_lane_3d[:, 0])
+normalized_x = left_lane_3d[:, 0] / (x_max - x_min)
+print("norm x: ", normalized_x)
+
+# Approximate the curve using cubic spline interpolation
+spline = CubicSpline(left_lane_3d[:, 0], left_lane_3d[:, 1])
 
 # Create a PointCloud object
 pcd = o3d.geometry.PointCloud()
@@ -30,9 +41,13 @@ try:
     while True:
         # Update your data points (e.g., left_lane_3d)
         # Update your data points with slight motion
-        for i in range(len(left_lane_3d)):
-            left_lane_3d[i, 0] += np.random.uniform(-0.1, 0.1)
-            left_lane_3d[i, 1] += np.random.uniform(-0.1, 0.1)
+        # for i in range(len(left_lane_3d)):
+            # left_lane_3d[i, 0] += np.random.uniform(-0.1, 0.1)
+            # left_lane_3d[i, 1] += np.random.uniform(-0.1, 0.1)
+
+        # Interpolate y-values based on the curve
+        # left_lane_3d[:, 0] = spline(left_lane_3d[:, 0])
+        print("spline: ", spline(left_lane_3d[:, 0]))
 
         # Update the PointCloud data
         pcd.points = o3d.utility.Vector3dVector(left_lane_3d)
