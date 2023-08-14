@@ -32,13 +32,20 @@ right_lane = [[1223, 509], [1187, 499], [1154, 489], [1120, 479], [1086, 469],
               [1042, 458], [1004, 449], [964, 439], [925, 429], [882, 419],
               [840, 409], [801, 399], [766, 389], [741, 379], [724, 368]]
 
+arr = []
 # Convert 2D points to 3D
 constant_z = 0
 center_lane_3d = np.array([[x, y, constant_z] for x, y in center_lane])
+print("center_lane_3d: ", center_lane_3d)
 center2_lane_3d = np.array([[x, y, constant_z] for x, y in center2_lane])
 # center_lane_3d = np.array([[constant_z, x, y] for x, y in center_lane])
 left_lane_3d = np.array([[x, y, constant_z] for x, y in left_lane])
 right_lane_3d = np.array([[x, y, constant_z] for x, y in right_lane])
+
+arr.append(np.array([[x, y, constant_z] for x, y in center_lane]))
+arr.append(np.array([[x, y, constant_z] for x, y in center2_lane]))
+arr.append(np.array([[x, y, constant_z] for x, y in left_lane]))
+arr.append(np.array([[x, y, constant_z] for x, y in right_lane]))
 
 # Normalize the values
 center_x_min = np.min(center_lane_3d[:, 0])
@@ -60,7 +67,8 @@ right_x_max = np.max(right_lane_3d[:, 0])
 # left_lane_3d[:, 0] = left_normalized_x
 
 # Combine both lanes' data
-combined_lane_data = np.vstack((left_lane_3d, center_lane_3d, center2_lane_3d, right_lane_3d))
+# combined_lane_data = np.vstack((left_lane_3d, center_lane_3d, center2_lane_3d, right_lane_3d))
+combined_lane_data = np.vstack((arr))
 
 # Create a PointCloud object
 pcd = o3d.geometry.PointCloud()
@@ -87,7 +95,8 @@ try:
         # Interpolate y-values based on the curve
         # center_lane_3d[:, 0] = spline(center_lane_3d[:, 0])
         # print("spline: ", spline(center_lane_3d[:, 0]))
-        combined_lane_data = np.vstack((left_lane_3d, center_lane_3d, center2_lane_3d, right_lane_3d))
+        # combined_lane_data = np.vstack((left_lane_3d, center_lane_3d, center2_lane_3d, right_lane_3d))
+        combined_lane_data = np.vstack(arr)
 
         # Update the PointCloud data
         pcd.points = o3d.utility.Vector3dVector(combined_lane_data)
