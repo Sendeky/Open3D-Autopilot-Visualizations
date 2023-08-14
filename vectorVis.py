@@ -101,7 +101,7 @@ try:
         # Sleep to achieve the desired update frequency (e.g., 1/12 seconds)
         end_time = time.time()
         print("running time: ", end_time - start_time)
-        time.sleep(1/12)
+        # time.sleep(1/12)
 finally:
     # Close the visualization window when done
     vis.destroy_window()

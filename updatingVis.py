@@ -26,7 +26,7 @@ lane_line.compute_vertex_normals()
 # print('Triangles:')
 # print(np.asarray(mesh.triangles))
 
-# example of give lane
+# example of given lane
 """ left_lane = [[229, 709], [238, 699], [249, 689], [260, 679], [271, 669], [282, 659],
     [293, 649], [304, 639], [315, 629], [325, 619], [336, 609], [348, 599], [359, 589],
     [369, 579], [381, 569], [390, 559], [404, 549], [415, 539], [426, 529], [438, 519],
